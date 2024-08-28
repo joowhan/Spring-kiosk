@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gimjuhwan
-  Date: 8/25/24
-  Time: 4:46 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -61,7 +54,7 @@
 <div id="cart-items">
     <c:forEach var="item" items="${cart.items}">
         <div class="cart-item">
-            <p>${item.itemId}</p>
+            <p>${item.name}</p>
             <p>${item.quantity} x ${item.price}원</p>
         </div>
     </c:forEach>
@@ -69,14 +62,14 @@
 
 <!-- 총 가격 표시 -->
 <div class="total-price">
-    총 가격: ${cart.totalPrice}원
+    총 가격: ${totalPrice}원
 </div>
 
 <!-- 결제 버튼들 -->
 <div>
-    <a href="${pageContext.request.contextPath}/payment?method=credit" class="payment-button">신용카드 결제</a>
-    <a href="${pageContext.request.contextPath}/payment?method=applepay" class="payment-button">애플페이 결제</a>
-    <a href="${pageContext.request.contextPath}/payment?method=cash" class="payment-button">현금 결제</a>
+    <a href="#" class="payment-button" onclick="handlePayment('credit')">신용카드 결제</a>
+    <a href="#" class="payment-button" onclick="handlePayment('applepay')">애플페이 결제</a>
+    <a href="#" class="payment-button" onclick="handlePayment('cash')">현금 결제</a>
 </div>
 
 <script>
@@ -85,7 +78,18 @@
             window.location.href = "${pageContext.request.contextPath}/cart/clear";
         }
     }
+
+    function handlePayment(method) {
+        fetch(`${pageContext.request.contextPath}/payment?method=` + method)
+            .then(response => response.text())
+            .then(data => {
+                if (confirm(data)) {
+                    // 주문 완료 로직 호출
+                    window.location.href = `${pageContext.request.contextPath}/order/complete?method=` + method;
+                }
+            });
+    }
 </script>
+
 </body>
 </html>
-

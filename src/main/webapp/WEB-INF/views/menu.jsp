@@ -7,56 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <title>KOPO 카페 - 메뉴</title>--%>
-<%--    <style>--%>
-<%--        .category-tab {--%>
-<%--            display: inline-block;--%>
-<%--            margin: 10px;--%>
-<%--            padding: 10px;--%>
-<%--            background-color: #e0e0e0;--%>
-<%--            cursor: pointer;--%>
-<%--            border-radius: 5px;--%>
-<%--            text-align: center;--%>
-<%--        }--%>
-<%--        .category-tab.selected {--%>
-<%--            background-color: #5c85d6;--%>
-<%--            color: white;--%>
-<%--        }--%>
-<%--        .menu-item {--%>
-<%--            display: inline-block;--%>
-<%--            width: 150px;--%>
-<%--            margin: 10px;--%>
-<%--            text-align: center;--%>
-<%--            border: 1px solid #ddd;--%>
-<%--            border-radius: 5px;--%>
-<%--            padding: 10px;--%>
-<%--        }--%>
-<%--    </style>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--<h1>KOPO 카페 메뉴</h1>--%>
-
-<%--<!-- 카테고리 탭 -->--%>
-<%--<div>--%>
-<%--    <a href="/menu?category=커피" class="category-tab ${selectedCategory == '커피' ? 'selected' : ''}">커피</a>--%>
-<%--    <a href="/menu?category=음료" class="category-tab ${selectedCategory == '음료' ? 'selected' : ''}">음료</a>--%>
-<%--    <a href="/menu?category=푸드" class="category-tab ${selectedCategory == '푸드' ? 'selected' : ''}">푸드</a>--%>
-<%--</div>--%>
-
-<%--<!-- 메뉴 리스트 -->--%>
-<%--<div>--%>
-<%--    <c:forEach var="menu" items="${menuList}">--%>
-<%--        <div class="menu-item">--%>
-<%--            <img src="${pageContext.request.contextPath}/resources/${menu.imgUrl}" alt="${menu.name}" width="100" height="100"/>--%>
-<%--            <p>${menu.name}</p>--%>
-<%--        </div>--%>
-<%--    </c:forEach>--%>
-<%--</div>--%>
-<%--</body>--%>
-<%--</html>--%>
-
 <html>
 <head>
     <title>KOPO 카페 - 메뉴</title>

@@ -14,7 +14,7 @@
 <h1>hello world</h1>
 <h1>어서오세요 KOPO 카페입니다.</h1>
 <div class="button-container">
-    <form action="/selectPickUpType" method="post">
+    <form action="selectPickUpType" method="post">
         <button type="submit" name="pickUpType" value="Eat-in" class="button">매장</button>
         <button type="submit" name="pickUpType" value="Take-out" class="button">포장</button>
     </form>

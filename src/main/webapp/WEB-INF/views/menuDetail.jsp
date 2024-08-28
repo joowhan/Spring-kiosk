@@ -11,7 +11,6 @@
             right: 20px;
             font-size: 24px;
             cursor: pointer;
-            display: none; /* 기본적으로 숨김 */
         }
         .cart-count {
             position: absolute;
@@ -29,6 +28,7 @@
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
 </head>
 <body>
 <h1>${menu.name}</h1>
@@ -36,9 +36,11 @@
 <p>가격: ${menu.price}원</p>
 
 <!-- 장바구니 아이콘 -->
-<div id="cart-icon" class="cart-icon">
-    🛒<span id="cart-count" class="cart-count">0</span>
-</div>
+<c:if test="${cartItemCount > 0}">
+    <div id="cart-icon" class="cart-icon">
+        🛒<span id="cart-count" class="cart-count">${cartItemCount}</span>
+    </div>
+</c:if>
 
 <!-- 수량 선택 -->
 <div>
@@ -58,11 +60,22 @@
     </div>
 </c:if>
 
-<!-- 장바구니 및 주문 버튼 -->
+<%-- <!-- 장바구니 및 주문 버튼 -->
 <div>
     <button type="button" onclick="addToCart()">담기</button>
     <button type="button" onclick="location.href='${pageContext.request.contextPath}/cart'">주문하기</button>
-</div>
+</div> --%>
+
+<form action="${pageContext.request.contextPath}/cart/add" method="post">
+    <input type="hidden" name="itemId" value="${menu.itemId}"/>
+    <input type="hidden" name="name" value="${menu.name}"/>
+    <input type="hidden" name="price" value="${menu.price }">
+    <input type="hidden" name="selectedSize" id="selectedSizeInput" value=""/>
+    <input type="hidden" name="quantity" id="quantityInput" value="1"/>
+    <button type="submit">담기</button>
+    
+     <button type="button" onclick="location.href='${pageContext.request.contextPath}/cart'">주문하기</button>
+</form>
 
 <a href="${pageContext.request.contextPath}/menu">뒤로 가기</a>
 
@@ -74,6 +87,7 @@
         var quantity = parseInt(quantityInput.value);
         if (quantity > 1) {
             quantityInput.value = quantity - 1;
+            document.getElementById("quantityInput").value = quantityInput.value;
         }
     }
 
@@ -81,6 +95,7 @@
         var quantityInput = document.getElementById("quantity");
         var quantity = parseInt(quantityInput.value);
         quantityInput.value = quantity + 1;
+        document.getElementById("quantityInput").value = quantityInput.value;
     }
 
     function selectSize(size) {
@@ -89,31 +104,7 @@
             button.classList.remove("selected");
         });
         document.getElementById("size-" + size).classList.add("selected");
-    }
-
-    function addToCart() {
-        var itemId = "${menu.itemId}";
-        var quantity = document.getElementById("quantity").value;
-        var name = "${menu.name}";
-
-        if (selectedSize == null && ${menu.hasSizes()}) {
-            alert("사이즈를 선택해 주세요.");
-            return;
-        }
-
-        $.post("${pageContext.request.contextPath}/cart/add", {
-            itemId: itemId,
-            quantity: quantity,
-            name: name,
-            selectedSize: selectedSize
-        }, function(response) {
-            if (response.success) {
-                alert("장바구니에 성공적으로 담겼습니다!");
-                updateCartIcon(response.cartItemCount);
-            } else {
-                alert("장바구니에 추가할 수 없습니다.");
-            }
-        });
+        document.getElementById("selectedSizeInput").value = size; // 선택된 사이즈를 히든 필드에 저장
     }
 
     function updateCartIcon(itemCount) {
