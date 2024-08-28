@@ -83,7 +83,21 @@
         fetch(`${pageContext.request.contextPath}/payment?method=` + method)
             .then(response => response.text())
             .then(data => {
-                if (confirm(data)) {
+                let message = "";
+                switch (data.trim()) {
+                    case "1":
+                        message = "핸드폰을 갖다 대세요."; // 애플페이
+                        break;
+                    case "2":
+                        message = "신용카드를 투입하세요."; // 카드
+                        break;
+                    case "3":
+                        message = "현금을 투입하세요."; // 현금
+                        break;
+                    default:
+                        message = "알 수 없는 결제 방식입니다.";
+                }
+                if (confirm(message)) {
                     // 주문 완료 로직 호출
                     window.location.href = `${pageContext.request.contextPath}/order/complete?method=` + method;
                 }

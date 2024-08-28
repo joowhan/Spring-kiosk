@@ -37,7 +37,7 @@
 
 <!-- 장바구니 아이콘 -->
 <c:if test="${cartItemCount > 0}">
-    <div id="cart-icon" class="cart-icon">
+    <div id="cart-icon" class="cart-icon" onclick="location.href='${pageContext.request.contextPath}/cart'">
         🛒<span id="cart-count" class="cart-count">${cartItemCount}</span>
     </div>
 </c:if>
@@ -66,36 +66,47 @@
     <button type="button" onclick="location.href='${pageContext.request.contextPath}/cart'">주문하기</button>
 </div> --%>
 
-<form action="${pageContext.request.contextPath}/cart/add" method="post">
+<form id="cartForm" action="${pageContext.request.contextPath}/cart/add" method="post">
     <input type="hidden" name="itemId" value="${menu.itemId}"/>
     <input type="hidden" name="name" value="${menu.name}"/>
     <input type="hidden" name="price" value="${menu.price }">
-    <input type="hidden" name="selectedSize" id="selectedSizeInput" value=""/>
+    <input type="hidden" name="selectedSize" id="selectedSizeInput" value="${menu.sizes[0]}"/>
     <input type="hidden" name="quantity" id="quantityInput" value="1"/>
     <button type="submit">담기</button>
     
-     <button type="button" onclick="location.href='${pageContext.request.contextPath}/cart'">주문하기</button>
+     <%-- <button type="button" onclick="location.href='${pageContext.request.contextPath}/cart'">주문하기</button> --%>
+</form>
+
+<form id="orderForm" action="${pageContext.request.contextPath}/cart/addAndOrder" method="post">
+    <input type="hidden" name="itemId" value="${menu.itemId}"/>
+    <input type="hidden" name="name" value="${menu.name}"/>
+    <input type="hidden" name="price" value="${menu.price }">
+    <input type="hidden" name="selectedSize" id="selectedSizeInput2" value="${menu.sizes[0]}"/>
+    <input type="hidden" name="quantity" id="quantityInput2" value="1"/>
+     <button type="submit">주문하기</button>
 </form>
 
 <a href="${pageContext.request.contextPath}/menu">뒤로 가기</a>
 
 <script>
     var selectedSize = null;
-
+	// 수량 증가
     function decreaseQuantity() {
         var quantityInput = document.getElementById("quantity");
         var quantity = parseInt(quantityInput.value);
         if (quantity > 1) {
             quantityInput.value = quantity - 1;
             document.getElementById("quantityInput").value = quantityInput.value;
+            document.getElementById("quantityInput2").value = quantityInput.value;
         }
     }
-
+	// 수량 감소
     function increaseQuantity() {
         var quantityInput = document.getElementById("quantity");
         var quantity = parseInt(quantityInput.value);
         quantityInput.value = quantity + 1;
         document.getElementById("quantityInput").value = quantityInput.value;
+        document.getElementById("quantityInput2").value = quantityInput.value;
     }
 
     function selectSize(size) {
@@ -105,8 +116,9 @@
         });
         document.getElementById("size-" + size).classList.add("selected");
         document.getElementById("selectedSizeInput").value = size; // 선택된 사이즈를 히든 필드에 저장
+        document.getElementById("selectedSizeInput2").value = size; // 선택된 사이즈를 히든 필드에 저장
     }
-
+	// 카트 아이콘 표시
     function updateCartIcon(itemCount) {
         if (itemCount > 0) {
             document.getElementById("cart-icon").style.display = "block";
